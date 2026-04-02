@@ -26,7 +26,6 @@ _FIRST_RUN_PATH = _CONFIG_DIR / "installed"
 _POSTHOG_API_KEY = "phc_zutpVhmQw7oUmMkbawKNdYCKQWjpfASATtf5ywB75W2"
 _POSTHOG_HOST = "https://us.i.posthog.com"
 _CI_ENV_VARS: Final[tuple[str, ...]] = (
-    "CI",
     "GITHUB_ACTIONS",
     "GITLAB_CI",
     "BUILDKITE",

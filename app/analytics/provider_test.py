@@ -10,8 +10,15 @@ def test_base_properties_include_machine_architecture() -> None:
     assert provider._BASE_PROPERTIES["machine_arch"] != ""
 
 
-def test_is_opted_out_in_ci_environment(monkeypatch) -> None:
+def test_generic_ci_env_does_not_disable_analytics(monkeypatch) -> None:
     monkeypatch.setenv("CI", "true")
+
+    assert provider._is_ci_environment() is False
+    assert provider._is_opted_out() is False
+
+
+def test_hosted_ci_environment_disables_analytics(monkeypatch) -> None:
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
 
     assert provider._is_ci_environment() is True
     assert provider._is_opted_out() is True
