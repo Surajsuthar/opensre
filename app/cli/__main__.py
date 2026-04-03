@@ -39,8 +39,18 @@ from app.version import get_version
 # Heavy application imports are kept inside command functions so the CLI starts
 # fast and so that load_dotenv() in main() runs before any app module reads env.
 
-_SETUP_SERVICES = ["aws", "datadog", "grafana", "opensearch", "rds", "slack", "tracer"]
-_VERIFY_SERVICES = ["aws", "datadog", "grafana", "slack", "tracer"]
+_SETUP_SERVICES = [
+    "aws",
+    "coralogix",
+    "datadog",
+    "grafana",
+    "honeycomb",
+    "opensearch",
+    "rds",
+    "slack",
+    "tracer",
+]
+_VERIFY_SERVICES = ["aws", "coralogix", "datadog", "grafana", "honeycomb", "slack", "tracer"]
 
 
 _ASCII_HEADER = """\
@@ -185,7 +195,7 @@ def onboard() -> None:
 @click.option("--interactive", is_flag=True, help="Paste an alert JSON payload into the terminal.")
 @click.option(
     "--print-template",
-    type=click.Choice(["generic", "datadog", "grafana"]),
+    type=click.Choice(["generic", "datadog", "grafana", "honeycomb", "coralogix"]),
     default=None,
     help="Print a starter alert JSON template and exit.",
 )
