@@ -210,4 +210,5 @@ class EffectiveIntegrations(StrictConfigModel):
     github: EffectiveIntegrationEntry | None = None
     sentry: EffectiveIntegrationEntry | None = None
     google_docs: EffectiveIntegrationEntry | None = None
+    vercel: EffectiveIntegrationEntry | None = None
     opsgenie: EffectiveIntegrationEntry | None = None

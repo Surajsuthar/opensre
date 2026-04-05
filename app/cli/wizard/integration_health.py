@@ -11,6 +11,7 @@ from app.integrations.clients.datadog import DatadogClient, DatadogConfig
 from app.integrations.clients.grafana import get_grafana_client_from_credentials
 from app.integrations.clients.honeycomb import HoneycombClient
 from app.integrations.clients.opsgenie import OpsGenieClient, OpsGenieConfig
+from app.integrations.clients.vercel import VercelClient, VercelConfig
 from app.integrations.github_mcp import build_github_mcp_config, validate_github_mcp_config
 from app.integrations.models import (
     AWSIntegrationConfig,
@@ -356,6 +357,26 @@ def validate_google_docs_integration(
         ok=True,
         detail=f"Connected to Drive folder {config.folder_id} ({result.get('file_count', 0)} items).",
     )
+
+
+def validate_vercel_integration(*, api_token: str, team_id: str = "") -> IntegrationHealthResult:
+    """Validate Vercel credentials by listing accessible projects."""
+    if not api_token:
+        return IntegrationHealthResult(ok=False, detail="Vercel API token is required.")
+    try:
+        with VercelClient(VercelConfig(api_token=api_token, team_id=team_id)) as client:
+            result = client.list_projects()
+        if result.get("success"):
+            return IntegrationHealthResult(
+                ok=True,
+                detail=f"Vercel validated; listed {result.get('total', 0)} project(s).",
+            )
+        return IntegrationHealthResult(
+            ok=False,
+            detail=f"Vercel validation failed: {result.get('error', 'unknown error')}",
+        )
+    except Exception as err:
+        return IntegrationHealthResult(ok=False, detail=f"Vercel validation failed: {err}")
 
 
 def validate_opsgenie_integration(
