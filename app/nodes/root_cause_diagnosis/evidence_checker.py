@@ -70,8 +70,8 @@ def check_evidence_availability(
         or evidence.get("eks_events") is not None
         or evidence.get("eks_node_health") is not None
         or evidence.get("eks_deployments") is not None
-        or evidence.get("eks_pod_logs")
-        or evidence.get("eks_deployment_status")
+        or evidence.get("eks_pod_logs") is not None
+        or evidence.get("eks_deployment_status") is not None
     )
 
     # Check for evidence in alert annotations or raw text
